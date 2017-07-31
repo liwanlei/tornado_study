@@ -7,7 +7,7 @@
 import hashlib
 from datetime import  datetime
 import  json
-def encry(key):
-    hash1=hashlib.md5()
-    hash1.update(key)
-    return  hash1.hexdigest()
+def encrypt(key):
+    hash = hashlib.md5()
+    hash.update(key.encode("utf-8"))
+    return hash.hexdigest()

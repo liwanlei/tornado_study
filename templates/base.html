@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>新闻</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+</head>
+<body>
+<div style="margin-left: 17%;margin-top: 15px;text-align: center">
+<div style="text-align: center;float: left;margin-left: 20%">
+    {% for tag1 in tags %}
+    <a href="#"> {{ tag1.tag }}</a>
+ {% end %}
+</div>
+    <div style="float: right;margin-right: 20%">
+        {% if not current_user  %}
+    <a href="/login"> 登录</a>
+    <a href="/reg"> 注册</a>
+        {% end  %}
+        {% if current_user  %}
+    <a href="/log"> 退出</a>
+        {% end %}
+</div>
+</div><p>&nbsp;</p>
+<div style="margin-left: 17%;">
+    {% block hellw %}
+{% end %}
+</div>
+</body>
+</html>

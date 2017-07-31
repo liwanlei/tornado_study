@@ -10,14 +10,16 @@ import  tornado.ioloop
 import  tornado.options
 from tornado.options import define,options
 from  setting import setting
-from  mod.databease import db_session,engine
-define('port',default=8000,help='run on the given port',type=int)
+from  model.databease import db_session,engine,create_all
+from  url import url_pattern
+define('port',default=9000,help='run on the given port',type=int)
 class Application(tornado.web.Application):
-    def __init__(self,**setting):
-        tornado.web.Application.__init__(self,**setting)
+    def __init__(self,handlers,**setting):
+        tornado.web.Application.__init__(self,handlers,**setting)
         self.db=db_session
-application=Application(**setting)
+application=Application(url_pattern,**setting)
 if __name__ =='__main__':
+    # create_all()
     tornado.options.parse_command_line()
     http_server=tornado.httpserver.HTTPServer(application)
     http_server.listen(options.port)

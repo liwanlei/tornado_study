@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="panelLogin" class="panel">
+									{% if error_message %}
+									<div class="error"> <p>{{ str(error_message)}}</p> </div>
+									{% end %}
+								</div>
+<form about="/reg" method="POST">
+    {% raw xsrf_form_html() %}
+    <label for="email"> username:</label>
+    <input name="username" type="text">
+     <label for="password"> password:</label>
+    <input name="password" type="password">
+     <label for="password"> passwordzai:</label>
+    <input name="password1" type="password">
+    <label for="email"> email:</label>
+    <input name="email" type="text">
+    <input type="submit" value="登录">
+</form>
+<a href="/login"> 去登录</a>
+</body>
+</html>
