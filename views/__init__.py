@@ -11,5 +11,5 @@ class BaseHander(RequestHandler):
         user_id = self.get_secure_cookie('user_id')
         if not user_id:
             return None
-        return user_id
+        return User.get_by_id(int(user_id))
 

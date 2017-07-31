@@ -74,17 +74,15 @@ class New(Base):
     create_time=Column(DateTime(),default=datetime.datetime.now())
     create_usid=Column(Integer(),ForeignKey('users.id'))
     tag_id=Column(Integer(),ForeignKey('tags.id'))
-    def __init__(self, id, title, ):
-        self.id = id
-        self.title = title
     def __repr__(self):
         return self.title
     @classmethod
     def get_count(cls):
         return  db_session.query(New).count()
-    def new(self,title1,desc,text,create_usid,tag_id):
+    @classmethod
+    def new(cls,title1,desc,text,create_usid,tag_id):
         '''add new user '''
-        new=User(title=title1,desc=desc,text=text,create_usid=create_usid,tag_id=tag_id)
+        new=New(title=title1,desc=desc,text=text,create_usid=create_usid,tag_id=tag_id)
         new.create_time=datetime.datetime.now()
         db_session.add(new)
         try:
@@ -107,6 +105,7 @@ class Tag(Base):
     __tablename__='tags'
     id=Column(Integer(),primary_key=True)
     tag=Column(String(64),unique=True,index=True)
+    news = relationship('New', backref='tags', )
     def __repr__(self):
         return self.tag
     @classmethod

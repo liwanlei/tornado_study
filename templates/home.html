@@ -3,7 +3,7 @@
         {% for new in news %}
 <div >
   <p >
-    标题：<a href="#" style="color: #2b669a">{{ new.title }}</a>
+    标题：<a href="/one/{{ new.id }}" style="color: #2b669a">{{ new.title }}</a>
     </p>
 <p >
     概述：<a >{{ new.desc }}</a>
@@ -16,4 +16,7 @@
 
     </p></div>
         {% end %}
+<div class="pagination">
+         {% raw str_page%}
+</div>
 {% end %}

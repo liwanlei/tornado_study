@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block hellw %}
+<h1 >{{ news.title }}</h1>
+<p >{{ news.text }}</p>
+<p >作者：{{ news.users }}<span >发表时间：{{ news.create_time }}</span></p>
+<p>标签：<a href="/tag/{{ news.tag_id }}/1">{{ news.tags }}</a></p>
+{% if not current_user  %}请先
+    <a href="/login"> 登录</a>或者前往
+    <a href="/reg"> 注册</a>后登陆才能评论！或者去往
+<a href="/index/1">首页</a>
+        {% end  %}
+        {% if current_user  %}
+<form method="POST" action="/one/{{ news.id }}">
+   <p> 评论者：<label>{{ current_user }}</label></p>
+    <input type="text" name="comment" >
+    <input type="submit" value="评论">
+</form>
+        {% end %}
+{% end %}

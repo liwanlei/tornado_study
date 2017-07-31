@@ -10,13 +10,17 @@ from model.models import User,Tag,New,db_session
 from views import  BaseHander
 import re
 from  libs.common import encrypt
+from libs.fenye import  Pagination
 def get_tag():
     return db_session.query(Tag).all()
 class IndexHadnder(BaseHander):
-    def get(self):
+    def get(self,page=1):
         tags=get_tag()
-        titles=db_session.query(New).all()
-        self.render('home.html',tags=tags,news=titles)
+        count=New.get_count()
+        obj=Pagination(page,count)
+        titles=db_session.query(New).all()[obj.start:int(page)*(10)]
+        str_page = obj.string_pager('/index/')
+        self.render('home.html',tags=tags,news=titles,str_page=str_page,)
 class LoginHadnder(BaseHander):
     def get(self):
         self.render('login.html',error_message=None)
@@ -36,7 +40,7 @@ class LoginHadnder(BaseHander):
         if user.password!=encrypt(password):
             self.render('login.html', error_message=error_message['102'])
         self.set_secure_cookie("user_id", str(user.id), expires_days=7)
-        self.redirect('/')
+        self.redirect('/index/1')
 class RegHander(BaseHander):
     def get(self):
         self.render('reg.html',error_message='')
@@ -80,4 +84,17 @@ class RegHander(BaseHander):
 class LogoutHandler(BaseHander):
     def get(self):
         self.clear_cookie('user_id')
-        self.redirect('/')
+        self.redirect('/index/1')
+class TagHadnder(BaseHander):
+    def get(self,id=1,page=1):
+        tags=get_tag()
+        count=New.get_count()
+        obj=Pagination(page,count)
+        titles=db_session.query(New).filter_by(tag_id=id).all()[obj.start:int(page)*(10)]
+        str_page = obj.string_pager('/tag/%s/'%id)
+        self.render('tag.html',tags=tags,news=titles,str_page=str_page,id=id)
+class NewoneHadnder(BaseHander):
+    def get(self,id):
+        tags=get_tag()
+        titles=db_session.query(New).filter_by(id=id).first()
+        self.render('one.html',tags=tags,news=titles)
