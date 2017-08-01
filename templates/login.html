@@ -10,7 +10,7 @@
 									<div class="error"> <p>{{ str(error_message)}}</p> </div>
 									{% end %}
 								</div>
-<form about="/login" method="POST">
+<form action="/login" method="POST">
     {% raw xsrf_form_html() %}
     <label for="email"> email:</label>
     <input name="username" type="text">

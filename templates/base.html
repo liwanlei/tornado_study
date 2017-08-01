@@ -3,33 +3,56 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>新闻</title>
+<title>新闻小中心</title>
 <meta name="description" content="">
 <meta name="keywords" content="">
 <link href="" rel="stylesheet">
+     <link rel="stylesheet" href="{{ static_url('css/style.css')}}">
+    <link rel="stylesheet" href="{{ static_url('css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{ static_url('css/bootstrap-responsive.css')}}">
+    <link rel="stylesheet" href="{{ static_url('css/bootstrap-theme.css')}}">
+     <link rel="stylesheet" href="{{ static_url('css/font-awesome/css/font-awesome.min.css')}}">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600|PT+Serif:400,400italic' rel='stylesheet' type='text/css'>
 </head>
 <body>
-<div style="margin-left: 17%;margin-top: 15px;text-align: center">
-<div style="text-align: center;float: left;margin-left: 20%">
-    <a href="/index/1"> 首页</a>
+ <header>
+        <div class="widewrapper masthead">
+            <div class="container">
+
+
+                <div id="mobile-nav-toggle" class="pull-right">
+                    <a href="#" data-toggle="collapse" data-target=".clean-nav .navbar-collapse">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                </div>
+                <nav class="pull-right clean-nav">
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav nav-pills navbar-nav">
+
+                           <li><a href="/index/1"> 首页</a></li>
     {% for tag1 in tags %}
-    <a href="/tag/{{tag1.id}}/1"> {{ tag1.tag }}</a>
- {% end %}
+    <li><a href="/tag/{{tag1.id}}/1"> {{ tag1.tag }}</a></li>
+     {% end %}
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div >
 </div>
-    <div style="float: right;margin-right: 20%">
-        {% if not current_user  %}
-    <a href="/login"> 登录</a>
-    <a href="/reg"> 注册</a>
-        {% end  %}
-        {% if current_user  %}
-        <a>{{ current_user.username }}</a>
-    <a href="/log"> 退出</a>
-        {% end %}
-</div>
-</div><p>&nbsp;</p>
-<div style="margin-left: 17%;">
+    </header>
+<p>&nbsp;</p>
+ <div class="widewrapper main">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 blog-main">
+                    <div class="row">
     {% block hellw %}
 {% end %}
-</div>
+                    </div></div>
+            </div></div></div>
+ <div style="text-align: center">
+  {% block fen %}
+{% end %}</div>
 </body>
 </html>

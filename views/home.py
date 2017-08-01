@@ -6,8 +6,9 @@
 @file: home.py
 @time: 2017/7/31 11:47
 """
-from model.models import User,Tag,New,db_session
+from model.models import User,Tag,New,db_session,Comment
 from views import  BaseHander
+import tornado.web
 import re
 from  libs.common import encrypt
 from libs.fenye import  Pagination
@@ -18,7 +19,7 @@ class IndexHadnder(BaseHander):
         tags=get_tag()
         count=New.get_count()
         obj=Pagination(page,count)
-        titles=db_session.query(New).all()[obj.start:int(page)*(10)]
+        titles=db_session.query(New).order_by(New.create_time.desc()).all()[obj.start:int(page)*(12)]
         str_page = obj.string_pager('/index/')
         self.render('home.html',tags=tags,news=titles,str_page=str_page,)
 class LoginHadnder(BaseHander):
@@ -88,13 +89,36 @@ class LogoutHandler(BaseHander):
 class TagHadnder(BaseHander):
     def get(self,id=1,page=1):
         tags=get_tag()
-        count=New.get_count()
-        obj=Pagination(page,count)
-        titles=db_session.query(New).filter_by(tag_id=id).all()[obj.start:int(page)*(10)]
+        count=db_session.query(New).filter(New.tag_id==1).all()
+        obj=Pagination(page,len(count))
+        titles=db_session.query(New).order_by(New.create_time.desc()).filter_by(tag_id=id).all()[obj.start:int(page)*(12)]
         str_page = obj.string_pager('/tag/%s/'%id)
         self.render('tag.html',tags=tags,news=titles,str_page=str_page,id=id)
+tags=''
+titles=''
+comments=''
 class NewoneHadnder(BaseHander):
     def get(self,id):
+        global  tags,titles,comments
         tags=get_tag()
         titles=db_session.query(New).filter_by(id=id).first()
-        self.render('one.html',tags=tags,news=titles)
+        comment=db_session.query(Comment).filter_by(post_id=id).all()
+        if len(comment)<=0:
+            comments=''
+        else:
+            comments=comment
+        self.render('one.html',tags=tags,news=titles,comments=comments,err_message='')
+    @tornado.web.authenticated
+    def post(self,id, *args, **kwargs):
+        user = self.current_user
+        comment = self.get_argument('comment', '')
+        if not (user and comment):
+            self.render('one.html', tags=tags, news=titles, comments=comments,err_message='评论内容不能为空')
+            return
+        try:
+            Comment.new(post_id=id,user_id=user.id,comment=comment)
+            self.redirect('/one/%s'%id)
+            return
+        except:
+            self.render('one.html', tags=tags, news=titles, comments=comments,err_message='评论失败')
+            return

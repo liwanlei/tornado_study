@@ -1,21 +1,23 @@
 {% extends "base.html" %}
 {% block hellw %}
         {% for new in news %}
-<div >
-  <p >
-    标题：<a href="/one/{{ new.id }}" style="color: #2b669a">{{ new.title }}</a>
-    </p>
-<p >
-    概述：<a >{{ new.desc }}</a>
-    </p>
-<p >作者：
-     <a href="#">{{ new.users }}</a>
-    于
-    <a href="#">{{ new.create_time }}</a>
-    发布
-
-    </p></div>
-        {% end %}
+<div class="col-md-4 col-sm-4">
+                            <article class=" blog-teaser">
+                                <header>
+                                    <h3>标题：<a href="/one/{{ new.id }}" style="color: #2b669a">{{ new.title }}</a></h3>
+                                    <span class="meta">  <a href="#">{{ new.create_time.strftime('%Y-%m-%d %H:%M:%S')   }}</a></span>
+                                    <hr>
+                                </header>
+                                <div class="body">
+                                    {{ new.desc }}
+                                </div>
+                                <div class="clearfix">
+                                    <a href="/one/{{ new.id }}" class="btn btn-clean-one"> 更多</a>
+                                </div>
+                            </article>
+                        </div>
+{% end %}{% end %}
+   {% block fen %}
 <div class="pagination">
          {% raw str_page%}
 </div>

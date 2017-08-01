@@ -25,38 +25,14 @@ class Pagination:
     def end(self):
         return self.current_page * 10
     def string_pager(self, base_url="/index/"):
-        list_page = []
-        if self.all_pager < 11:
-            s = 1
-            t = self.all_pager + 1
-        else:
-            if self.current_page < 6:
-                s = 1
-                t = 12
-            else:
-                if (self.current_page + 5) < self.all_pager:
-                    s = self.current_page - 5
-                    t = self.current_page + 5 + 1
-                else:
-                    s = self.all_pager - 11
-                    t = self.all_pager + 1
         if self.current_page == 1:
-            prev = '<a href="javascript:void(0);">上一页</a>'
+            prev = '<li><a href="javascript:void(0);">上一页</a></li>'
         else:
-            prev = '<a href="%s%s">上一页</a>' % (base_url, self.current_page - 1,)
-        list_page.append(prev)
-        for p in range(s, t):
-            if p == self.current_page:
-                temp = '<a class="active" href="%s%s">%s</a>' % (base_url,p, p)
-            else:
-                temp = '<a href="%s%s">%s</a>' % (base_url,p, p)
-            list_page.append(temp)
+            prev = '<li><a href="%s%s">上一页</a></li>' % (base_url, self.current_page - 1,)
         if self.current_page == self.all_pager:
-            nex = '<a href="javascript:void(0);">下一页</a>'
+            nex = '<li><a href="javascript:void(0);">下一页</a></li>'
         else:
-            nex = '<a href="%s%s">下一页</a>' % (base_url, self.current_page + 1,)
-        list_page.append(nex)
-        last = '<a href="%s%s">尾页</a>' % (base_url, self.all_pager,)
-        list_page.append(last)
-        str_page = "".join(list_page)
+            nex = '<li><a href="%s%s">下一页</a></li>' % (base_url, self.current_page + 1,)
+        last = '<li><a href="%s%s">尾页</a></li>' % (base_url, self.all_pager,)
+        str_page = "".join((prev,nex,last))
         return str_page

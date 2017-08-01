@@ -19,6 +19,7 @@ class User(Base):
     last_log_ip=Column(String(16))
     update_time=Column(DateTime())
     status=Column(Integer())
+    comments = relationship('Comment', backref='users')
     news=relationship('New',backref='users',)
     def __init__(self,username,email):
         self.username=username
@@ -74,6 +75,7 @@ class New(Base):
     create_time=Column(DateTime(),default=datetime.datetime.now())
     create_usid=Column(Integer(),ForeignKey('users.id'))
     tag_id=Column(Integer(),ForeignKey('tags.id'))
+    comments=relationship('Comment',backref='news')
     def __repr__(self):
         return self.title
     @classmethod
@@ -105,7 +107,7 @@ class Tag(Base):
     __tablename__='tags'
     id=Column(Integer(),primary_key=True)
     tag=Column(String(64),unique=True,index=True)
-    news = relationship('New', backref='tags', )
+    news = relationship('New', backref='tags' )
     def __repr__(self):
         return self.tag
     @classmethod
@@ -127,3 +129,23 @@ class Tag(Base):
     def get_by_tag(cls, tag):
         item = db_session.query(Tag).filter(Tag.tag==tag).first()
         return item
+class Comment(Base):
+    __tablename__='comments'
+    id=Column(Integer(),primary_key=True)
+    user_id=Column(Integer(),ForeignKey('users.id'))
+    post_id=Column(Integer(),ForeignKey('news.id'))
+    coment=Column(Text())
+    coment_time=Column(DateTime(),default=datetime.datetime.now())
+    def __repr__(self):
+        return  self.coment
+    @classmethod
+    def new(cls,post_id,user_id,comment):
+        new=Comment(post_id=post_id,user_id=user_id,coment=comment)
+        new.coment_time=datetime.datetime.now()
+        db_session.add(new)
+        try:
+            db_session.commit()
+        except:
+            db_session.rollback()
+
+
