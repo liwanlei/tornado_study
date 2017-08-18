@@ -20,7 +20,7 @@ def Get_xinwen():
     be=json.loads(html)
     me=be['data']
     for title in me:
-        cn = sqlite3.connect('C:\\Users\Administrator\Desktop\\tornado_study\database.db')
+        cn = sqlite3.connect(r'C:\\Users\\Administrator\\Desktop\\xuesheng\\tornado_study\\database.db')
         cu = cn.cursor()
         try:
             if len(title['abstract']) !=0:
@@ -45,7 +45,7 @@ def shehui():
     lo = html['data']
     try:
         for item in lo:
-            cn = sqlite3.connect('C:\\Users\Administrator\Desktop\\tornado_study\database.db')
+            cn = sqlite3.connect(r'C:\Users\Administrator\Desktop\xuesheng\\tornado_study\database.db')
             cu = cn.cursor()
             if len(item['title']) != 0 and len(item['abstract'])!= 0:
                 cu.execute("INSERT INTO news(title,desc,text,create_time,create_usid,tag_id) VALUES (?,?,?,?,?,?)",
@@ -68,7 +68,7 @@ def keyji():
     lo = html['data']
     try:
         for item in lo:
-            cn = sqlite3.connect('C:\\Users\Administrator\Desktop\\tornado_study\database.db')
+            cn = sqlite3.connect(r'C:\Users\Administrator\Desktop\xuesheng\\tornado_study\database.db')
             cu = cn.cursor()
             if len(item['title']) != 0 and len(item['abstract'])!= 0:
                 cu.execute("INSERT INTO news(title,desc,text,create_time,create_usid,tag_id) VALUES (?,?,?,?,?,?)",
@@ -91,7 +91,7 @@ def junshi():
     lo = html['data']
     try:
         for item in lo:
-            cn = sqlite3.connect('C:\\Users\Administrator\Desktop\\tornado_study\database.db')
+            cn = sqlite3.connect(r'C:\Users\Administrator\Desktop\xuesheng\\tornado_study\database.db')
             cu = cn.cursor()
             if len(item['title']) != 0 and len(item['abstract'])!= 0:
                 cu.execute("INSERT INTO news(title,desc,text,create_time,create_usid,tag_id) VALUES (?,?,?,?,?,?)",
@@ -114,7 +114,7 @@ def lishi():
     lo = html['data']
     for item in lo:
         try:
-            cn = sqlite3.connect('C:\\Users\Administrator\Desktop\\tornado_study\database.db')
+            cn = sqlite3.connect(r'C:\Users\Administrator\Desktop\xuesheng\\tornado_study\database.db')
             cu = cn.cursor()
             if len(item['title']) != 0 or len(item['abstract'])!= 0:
                 cu.execute("INSERT INTO news(title,desc,text,create_time,create_usid,tag_id) VALUES (?,?,?,?,?,?)",
@@ -137,7 +137,7 @@ def caijing():
     lo = html['data']
     try:
         for item in lo:
-            cn = sqlite3.connect('C:\\Users\Administrator\Desktop\\tornado_study\database.db')
+            cn = sqlite3.connect(r'C:\Users\Administrator\Desktop\xuesheng\\tornado_study\database.db')
             cu = cn.cursor()
             if len(item['title']) != 0 and len(item['abstract'])!= 0:
                 cu.execute("INSERT INTO news(title,desc,text,create_time,create_usid,tag_id) VALUES (?,?,?,?,?,?)",
@@ -147,12 +147,12 @@ def caijing():
             cn.close()
     except:
         pass
-if __name__ =='__main__':
-    while 1:
-        pool = multiprocessing.Pool(processes=6)
-        for item in [Get_xinwen,shehui,keyji,junshi,lishi,caijing]:
-            print(item)
-            pool.apply_async(item,args=())
-        pool.close()
-        pool.join()
-        time.sleep(100)
+# if __name__ =='__main__':
+#     while 1:
+#         pool = multiprocessing.Pool(processes=6)
+#         for item in [Get_xinwen,shehui,keyji,junshi,lishi,caijing]:
+#             print(item)
+#             pool.apply_async(item,args=())
+#         pool.close()
+#         pool.join()
+#         time.sleep(100)

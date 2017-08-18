@@ -14,7 +14,7 @@ class Pagination:
         if page < 1:
             page = 1
         all_pager, c = divmod(all_item, 10)
-        if c > 0:
+        if int(c) > 0:
             all_pager += 1
         self.current_page = page
         self.all_pager = all_pager

@@ -19,9 +19,9 @@ class IndexHadnder(BaseHander):
         tags=get_tag()
         count=New.get_count()
         obj=Pagination(page,count)
-        titles=db_session.query(New).order_by(New.create_time.desc()).all()[obj.start:int(page)*(12)]
+        titles = db_session.query(New).order_by(New.create_time.desc())[int(obj.start):(int(page)) * (12)]
         str_page = obj.string_pager('/index/')
-        self.render('home.html',tags=tags,news=titles,str_page=str_page,)
+        self.render('home.html', tags=tags, news=titles, str_page=str_page)
 class LoginHadnder(BaseHander):
     def get(self):
         self.render('login.html',error_message=None)

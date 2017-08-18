@@ -10,5 +10,6 @@ setting={
     'xsrf_cookies': True,
     'static_path': path.join(path.dirname(__file__), 'static'),
     'template_path': path.join(path.dirname(__file__), 'templates'),
-    'cookie_secret':'aiuasdhflashjdfoiuashdfiuh'
+    'cookie_secret':'aiuasdhflashjdfoiuashdfiuh',
+    'debug':True
 }

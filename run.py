@@ -11,7 +11,8 @@ from tornado.options import define,options
 from  setting import setting
 from  model.databease import db_session,engine,create_all
 from  url import url_pattern
-define('port',default=9000,help='run on the given port',type=int)
+from pachong import *
+define('port',default=5000,help='run on the given port',type=int)
 class Application(tornado.web.Application):
     def __init__(self,handlers,**setting):
         tornado.web.Application.__init__(self,handlers,**setting)
@@ -22,4 +23,10 @@ if __name__ =='__main__':
     tornado.options.parse_command_line()
     http_server=tornado.httpserver.HTTPServer(application)
     http_server.listen(options.port)
-    tornado.ioloop.IOLoop.instance().start()
+    tornado.ioloop.PeriodicCallback(Get_xinwen,3000*6).start()
+    tornado.ioloop.PeriodicCallback(caijing,3000*6).start()
+    tornado.ioloop.PeriodicCallback(lishi,3000*6).start()
+    tornado.ioloop.PeriodicCallback(keyji,3000*6).start()
+    tornado.ioloop.PeriodicCallback(junshi, 3000 * 6).start()
+    tornado.ioloop.PeriodicCallback(shehui, 3000 * 6).start()
+    tornado.ioloop.IOLoop.current().start()
